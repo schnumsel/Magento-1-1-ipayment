@@ -1,0 +1,57 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Phoenix_Ipayment
+ * @copyright  Copyright (c) 2009 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
+ */
+
+$_code=$this->getMethodCode();
+?>
+
+<fieldset class="form-list" id="fieldset_<?php echo $_code ?>">
+
+<?php 
+    $ipaymentCcSessionInfo = Mage::getSingleton('core/session')->getIpaymentCcInfo();
+    $isDataSaved = !empty($ipaymentCcSessionInfo);
+    if (!$isDataSaved) {
+        $ipaymentCcSessionInfo = array(
+            'cc_owner' => '',
+            'cc_type' => '',
+            'cc_number' => '',
+            'cc_exp_month' => '',
+            'cc_exp_year' => '',
+            'additional_data' => '',
+            'ipayment_cc_request_status' => ''
+        );
+    }
+?>
+
+
+<iframe frameborder="0" name="payment_form_<?php echo $_code ?>" id="payment_form_<?php echo $_code ?>" style="width:100%; height:305px; border:none; display:none;" src="<?php echo Mage::getUrl('ipayment/processing/ccform') ?>"></iframe>
+
+<input type="hidden" name="payment[cc_owner]" value="<?php echo $ipaymentCcSessionInfo['cc_owner'] ?>" />
+<input type="hidden" name="payment[cc_type]" value="<?php echo $ipaymentCcSessionInfo['cc_type'] ?>" />
+<input type="hidden" name="payment[cc_number]" value="<?php echo $ipaymentCcSessionInfo['cc_number'] ?>" />
+<input type="hidden" name="payment[cc_exp_month]" value="<?php echo $ipaymentCcSessionInfo['cc_exp_month'] ?>" />
+<input type="hidden" name="payment[cc_exp_year]" value="<?php echo $ipaymentCcSessionInfo['cc_exp_year'] ?>" />
+<input type="hidden" name="payment[additional_data]" id="ipayment_cc_additional_data" value="<?php echo $ipaymentCcSessionInfo['additional_data'] ?>" />
+<input type="hidden" id="ipayment_cc_request_status" value="" />
+</fieldset>
+
+<div>
+<span id="ipayment-cc-please-wait" style="display:none;" class="opc-please-wait">
+    <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Submitting payment information...') ?> &nbsp;
+</span>
+</div>

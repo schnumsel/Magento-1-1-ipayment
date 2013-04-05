@@ -1,0 +1,32 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Phoenix_Ipayment
+ * @copyright  Copyright (c) 2010 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
+ */
+?>
+<?php $accountData = $this->getAccountData(); ?>
+<script type="text/javascript" src="https://ipayment.de/merchant/<?php echo $accountData['accountId'] ?>/jsAPI/2.0/base/"></script>
+<script type="text/javascript" src="https://ipayment.de/merchant/<?php echo $accountData['accountId'] ?>/jsAPI/2.0/app/?trxuser_id=<?php echo $accountData['trxUserId'] ?>&amp;trxpassword=<?php echo $accountData['trxUserPassword'] ?>"></script>
+<?php if ($this->isMethodEnabled('cc')): ?>
+<script type="text/javascript">
+var cc_trxuser_id = <?php echo $accountData['trxUserId'] ?>;
+var saveSessInfoUrlGlobal = '<?php echo $this->getUrl('ipayment/processing/saveSessInfo') ?>';
+var unsetSessInfoUrlGlobal = '<?php echo $this->getUrl('ipayment/processing/unsetSessInfo') ?>';
+</script>
+<?php endif; ?>
+<?php if ($this->isMethodEnabled('elv')): ?>
+<script type="text/javascript"> var elv_trxuser_id = <?php echo $accountData['trxUserId'] ?>;</script>
+<?php endif; ?>

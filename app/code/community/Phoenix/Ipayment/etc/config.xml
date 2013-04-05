@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Phoenix
+ * @package    Phoenix_Ipayment
+ * @copyright  Copyright (c) 2009 by Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
+ */
+-->
+<config>
+    <modules>
+        <Phoenix_Ipayment>
+            <version>1.4.1</version>
+        </Phoenix_Ipayment>
+    </modules>
+    <global>
+        <models>
+            <phoenix_ipayment>
+                <class>Phoenix_Ipayment_Model</class>
+            </phoenix_ipayment>
+        </models>
+        <helpers>
+            <phoenix_ipayment>
+                <class>Phoenix_Ipayment_Helper</class>
+            </phoenix_ipayment>
+        </helpers>
+        <events>
+            <checkout_type_onepage_save_order>
+                <observers>
+                    <ipayment_empty_cc_session>
+                        <type>singleton</type>
+                        <class>phoenix_ipayment/observer</class>
+                        <method>emptyCcSession</method>
+                    </ipayment_empty_cc_session>
+                </observers>
+            </checkout_type_onepage_save_order>
+            <sales_order_payment_place_end>
+                <observers>
+                    <ipayment_update_order_state>
+                        <type>singleton</type>
+                        <class>phoenix_ipayment/observer</class>
+                        <method>sales_order_payment_place_end</method>
+                    </ipayment_update_order_state>
+                </observers>
+            </sales_order_payment_place_end>
+        </events>
+        <resources>
+            <phoenix_ipayment_setup>
+                <setup>
+                    <module>Phoenix_Ipayment</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </phoenix_ipayment_setup>
+            <phoenix_ipayment_write>
+                <use>core_write</use>
+            </phoenix_ipayment_write>
+            <phoenix_ipayment_read>
+                <use>core_read</use>
+            </phoenix_ipayment_read>
+        </resources>
+        <blocks>
+            <ipayment><class>Phoenix_Ipayment_Block</class></ipayment>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <pending_ipayment translate="label"><label>Pending Ipayment</label></pending_ipayment>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_ipayment/>
+                        </statuses>
+                    </pending_payment>
+                </states>
+            </order>
+        </sales>
+        <payment>
+            <groups>
+                <ipayment>Ipayment</ipayment>
+            </groups>
+        </payment>
+    </global>
+    <frontend>
+        <secure_url>
+            <ipayment_processing>/ipayment/processing</ipayment_processing>
+        </secure_url>
+        <routers>
+            <ipayment>
+                <use>standard</use>
+                <args>
+                    <module>Phoenix_Ipayment</module>
+                    <frontName>ipayment</frontName>
+                </args>
+            </ipayment>
+        </routers>
+        <translate>
+            <modules>
+                <Phoenix_Ipayment>
+                    <files>
+                        <default>Phoenix_Ipayment.csv</default>
+                    </files>
+                </Phoenix_Ipayment>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <ipayment>
+                    <file>ipayment.xml</file>
+                </ipayment>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Phoenix_Ipayment>
+                    <files>
+                        <default>Phoenix_Ipayment.csv</default>
+                    </files>
+                </Phoenix_Ipayment>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <payment>
+            <ipayment_cc translate="title" module="phoenix_ipayment">
+                <active>0</active>
+                <model>phoenix_ipayment/cc</model>
+                <group>ipayment</group>
+                <order_status>processing</order_status>
+                <title>Ipayment Kreditkarte</title>
+                <useccv>1</useccv>
+                <account_id>99999</account_id>
+                <trxuser_id>99999</trxuser_id>
+                <trxuser_password>0</trxuser_password>
+                <adminaction_password>5cfgRT34xsdedtFLdfHxj7tfwx24fe</adminaction_password>
+                <invoice_text>{{store_name}} #{{order_no}}</invoice_text>
+                <enable_test_mode>0</enable_test_mode>
+                <debug>0</debug>
+                <wsdl>https://ipayment.de/service/3.0/?wsdl</wsdl>
+            </ipayment_cc>
+            <ipayment_elv translate="title" module="phoenix_ipayment">
+                <active>0</active>
+                <model>phoenix_ipayment/elv</model>
+                <group>ipayment</group>
+                <order_status>processing</order_status>
+                <title>Ipayment Lastschrift</title>
+                <account_id>99999</account_id>
+                <trxuser_id>99999</trxuser_id>
+                <trxuser_password>0</trxuser_password>
+                <adminaction_password>5cfgRT34xsdedtFLdfHxj7tfwx24fe</adminaction_password>
+                <invoice_text>{{store_name}} #{{order_no}}</invoice_text>
+                <wsdl>https://ipayment.de/service/3.0/?wsdl</wsdl>
+                <debug>0</debug>
+            </ipayment_elv>            
+        </payment>
+        <phoenix>
+            <ipayment>
+                <cctypes>
+                    <AE>
+                        <code>AE</code>
+                        <name>American Express</name>
+                        <order>0</order>
+                        <is_cvv_required>1</is_cvv_required>
+                    </AE>
+                    <VI>
+                        <code>VI</code>
+                        <name>Visa</name>
+                        <order>10</order>
+                        <is_cvv_required>1</is_cvv_required>
+                    </VI>
+                    <MC>
+                        <code>MC</code>
+                        <name>Master Card</name>
+                        <order>20</order>
+                        <is_cvv_required>1</is_cvv_required>
+                    </MC>
+                    <DI>
+                        <code>DI</code>
+                        <name>Discover</name>
+                        <order>30</order>
+                        <is_cvv_required>1</is_cvv_required>
+                    </DI>
+                    <DC>
+                        <code>DC</code>
+                        <name>Diners Club</name>
+                        <order>40</order>
+                        <is_cvv_required>1</is_cvv_required>
+                    </DC>
+                    <SS>
+                        <code>SS</code>
+                        <name>Switch/Solo</name>
+                        <order>50</order>
+                        <is_cvv_required>1</is_cvv_required>
+                    </SS>
+                    <MO>
+                        <code>MO</code>
+                        <name>Maestro</name>
+                        <order>60</order>
+                        <is_cvv_required>0</is_cvv_required>
+                    </MO>
+                    <JC>
+                        <code>JC</code>
+                        <name>JCB</name>
+                        <order>70</order>
+                        <is_cvv_required>0</is_cvv_required>
+                    </JC>
+                    <CB>
+                        <code>CB</code>
+                        <name>CarteBleue</name>
+                        <order>80</order>
+                        <is_cvv_required>0</is_cvv_required>
+                    </CB>
+                </cctypes>
+            </ipayment>
+        </phoenix>
+    </default>
+</config>

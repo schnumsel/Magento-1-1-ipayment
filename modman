@@ -1,0 +1,9 @@
+app/code/community/Phoenix/Ipayment/* app/code/community/Phoenix/Ipayment/
+app/design/adminhtml/default/default/template/ipayment/* app/design/adminhtml/default/default/template/ipayment/
+app/design/frontend/base/default/layout/* app/design/frontend/base/default/layout/*
+app/design/frontend/base/default/template/ipayment/* app/design/frontend/base/default/template/ipayment/
+app/etc/modules/Phoenix_Ipayment.xml app/etc/modules/Phoenix_Ipayment.xml
+app/locale/de_AT/Phoenix_Ipayment.csv app/locale/de_AT/Phoenix_Ipayment.csv
+app/locale/de_DE/Phoenix_Ipayment.csv app/locale/de_DE/Phoenix_Ipayment.csv
+app/locale/en_US/Phoenix_Ipayment.csv app/locale/en_US/Phoenix_Ipayment.csv
+js/phoenix/ipayment/* js/phoenix/ipayment/

@@ -276,9 +276,18 @@ abstract class Phoenix_Ipayment_Model_Abstract extends Mage_Payment_Model_Method
 	protected function _getOptionData(Varien_Object $payment)
 	{
 		if (!is_array($this->_optionData)) {
+
+            $order    = $payment->getOrder();
+            $clientIp = '127.0.0.1';
+
+            if ($order->getXForwardedFor()) {
+                $clientIp = $order->getXForwardedFor();
+            } else {
+                $clientIp = ($order->getRemoteIp() != '::1') ? $order->getRemoteIp() : $clientIp;
+            }
+
 			$this->_optionData	=	array(
-				'fromIp'		=>	($payment->getOrder()->getRemoteIp() != '::1') ?
-										$payment->getOrder()->getRemoteIp() : '127.0.0.1',
+				'fromIp'		=>	$clientIp,
 				'clientData'	=>	array(
 										'clientName'			=>	'Magento '.Mage::getVersion(),
 										'clientVersion'			=>	'Phoenix Ipayment Modul v' .

@@ -1,3 +1,12 @@
 {
-    "name": "phoenix-media/magento-1-1-ipayment"
+  "name": "phoenix-media/magento-1-1-ipayment",
+  "description": "Macht iPayment in Magento verfügbar",
+  "type": "magento-module",
+  "require": {
+    "php": ">=5.3.0",
+    "composer/installers": "*"
+  },
+  "extra": {
+    "installer-name": "Phoenix_Ipayment"
+  }
 }
